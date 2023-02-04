@@ -15,7 +15,7 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
         {
             using var graphics = Graphics.FromImage(Rasterizer.Canvas.Bitmap);
 
-            graphics.DrawLines(
+            graphics.DrawPolygon(
                 pen,
                 polygon
                     .Vertices
