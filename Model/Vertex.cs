@@ -11,10 +11,16 @@ namespace ComputerGraphics3D.Model
 {
     public class Vertex : Figure
     {
-        public Vector3 Position { get; set; }
-        public Vector3 Normal { get; set; }
+        public Vector4 Position { get; set; }
+        public Vector4 Normal { get; set; }
 
         public Vertex(Vector3 position, Vector3 normal)
+        {
+            Position = new Vector4(position, 1f);
+            Normal = new Vector4(normal, 1f);
+        }
+
+        public Vertex(Vector4 position, Vector4 normal)
         {
             Position = position;
             Normal = normal;

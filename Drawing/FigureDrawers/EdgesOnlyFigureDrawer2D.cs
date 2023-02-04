@@ -3,11 +3,11 @@ using ComputerGraphics3D.Model;
 
 namespace ComputerGraphics3D.Drawing.FigureDrawers
 {
-    public class EdgesOnlyFigureDrawer : BaseFigureDrawer
+    public class EdgesOnlyFigureDrawer2D : BaseFigureDrawer2D
     {
-        private Pen pen = new(Brushes.Black);
+        private readonly Pen pen = new(Brushes.Black);
 
-        public EdgesOnlyFigureDrawer(Rasterizer rasterizer) : base(rasterizer)
+        public EdgesOnlyFigureDrawer2D(Rasterizer rasterizer) : base(rasterizer)
         {
         }
 
@@ -22,13 +22,6 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
                     .Select(v => Rasterizer.Rasterize(new PointF(v.Position.X, v.Position.Y)))
                     .ToArray()
             );
-        }
-
-        public override void DrawPolygonSet(PolygonSet polygonSet)
-        {
-            foreach (var polygon in polygonSet.Polygons) {
-                polygon.Draw(this);
-            }
         }
     }
 }

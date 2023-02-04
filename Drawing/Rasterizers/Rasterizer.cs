@@ -15,10 +15,10 @@ namespace ComputerGraphics3D.Drawing.Rasterizers
 
         private object _lock = new object();
 
-        public Rasterizer(ICanvas canvas, float scale)
+        public Rasterizer(ICanvas canvas)
         {
             Canvas = canvas;
-
+            float scale = 1f;
             xMin = -scale * canvas.Bitmap.Width / canvas.Bitmap.Height;
             xMax = scale * canvas.Bitmap.Width / canvas.Bitmap.Height;
             yMin = -scale;
