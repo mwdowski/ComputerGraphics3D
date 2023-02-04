@@ -14,9 +14,10 @@ namespace ComputerGraphics3D.Model
         public Vector3 Position { get; set; }
         public Vector3 Normal { get; set; }
 
-        public Vertex(Vector3 position)
+        public Vertex(Vector3 position, Vector3 normal)
         {
             Position = position;
+            Normal = normal;
         }
 
         public override string ToString()
