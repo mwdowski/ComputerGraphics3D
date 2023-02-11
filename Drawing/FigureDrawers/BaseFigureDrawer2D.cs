@@ -5,9 +5,9 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
 {
     public abstract class BaseFigureDrawer2D : IFigureDrawer
     {
-        protected Rasterizer Rasterizer { get; set; }
+        protected ZBufferedRasterizer Rasterizer { get; set; }
 
-        public BaseFigureDrawer2D(Rasterizer rasterizer)
+        public BaseFigureDrawer2D(ZBufferedRasterizer rasterizer)
         {
             Rasterizer = rasterizer;
         }

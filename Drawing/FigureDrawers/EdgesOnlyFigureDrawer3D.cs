@@ -13,20 +13,20 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
     {
         private readonly Pen pen = new(Brushes.Black);
 
-        public EdgesOnlyFigureDrawer3D(Rasterizer rasterizer, ISceneTransformer sceneTransformer) : base(rasterizer, sceneTransformer)
+        public EdgesOnlyFigureDrawer3D(ZBufferedRasterizer rasterizer, ISceneTransformer sceneTransformer) : base(rasterizer, sceneTransformer)
         {
         }
 
         public override void DrawPolygon(Polygon polygon)
         {
-            using var graphics = Graphics.FromImage(Rasterizer.Canvas.Bitmap);
+            using var graphics = Graphics.FromImage(Rasterizer.canvas.Bitmap);
 
             graphics.DrawPolygon(
                 pen,
                 polygon
                     .Vertices
                     .Select(v => sceneTransformer.Transform(v.Position))
-                    .Select(p => Rasterizer.Rasterize(new PointF(p.X / p.W, p.Y / p.W)))
+                    .Select(p => Rasterizer.GetPositionOnCanvas(p))
                     .ToArray()
             );
 

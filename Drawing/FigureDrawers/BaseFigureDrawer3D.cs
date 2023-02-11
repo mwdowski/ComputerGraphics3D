@@ -13,7 +13,7 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
     {
         protected ISceneTransformer sceneTransformer;
 
-        protected BaseFigureDrawer3D(Rasterizer rasterizer, ISceneTransformer sceneTransformer) : base(rasterizer)
+        protected BaseFigureDrawer3D(ZBufferedRasterizer rasterizer, ISceneTransformer sceneTransformer) : base(rasterizer)
         {
             this.sceneTransformer = sceneTransformer;
         }

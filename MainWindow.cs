@@ -5,7 +5,6 @@ using ComputerGraphics3D.Drawing.SceneTransformers;
 using ComputerGraphics3D.Loaders;
 using ComputerGraphics3D.Model;
 using System.Numerics;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace ComputerGraphics3D
 {
@@ -14,7 +13,7 @@ namespace ComputerGraphics3D
         ObjFileLoader loader = new();
         Figure? figure;
         ICanvas canvas;
-        Rasterizer rasterizer;
+        ZBufferedRasterizer rasterizer;
         float camX = 5f;
         float camY = 0f;
         float camZ = 3f;
@@ -22,9 +21,10 @@ namespace ComputerGraphics3D
         public MainWindow()
         {
             InitializeComponent();
-            figure = loader.LoadFigureFromFile("Resources\\sphere.obj");
+            figure = loader.LoadFigureFromFile("Resources\\torus.obj");
             canvas = new DirectBitmapCanvas(pictureBox1);
             rasterizer = new(canvas);
+            Redraw();
         }
 
         void Redraw()
@@ -36,7 +36,9 @@ namespace ComputerGraphics3D
                 .Then(new PerspectiveSceneTransformer(3.14f * 0.3333f, 1f, 1f, 100f));
             using var g = Graphics.FromImage(canvas.Bitmap);
             g.Clear(Color.White);
-            IFigureDrawer drawer = new EdgesOnlyFigureDrawer3D(rasterizer, sceneTransformer);
+            rasterizer.Refresh();
+            //IFigureDrawer drawer = new ConstantColorFigureDrawer3D(rasterizer, sceneTransformer, Color.Red);
+            IFigureDrawer drawer = new RandomColorFigureDrawer3D(rasterizer, sceneTransformer);
             figure?.Draw(drawer);
             pictureBox1.Refresh();
         }

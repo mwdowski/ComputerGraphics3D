@@ -7,19 +7,19 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
     {
         private readonly Pen pen = new(Brushes.Black);
 
-        public EdgesOnlyFigureDrawer2D(Rasterizer rasterizer) : base(rasterizer)
+        public EdgesOnlyFigureDrawer2D(ZBufferedRasterizer rasterizer) : base(rasterizer)
         {
         }
 
         public override void DrawPolygon(Polygon polygon)
         {
-            using var graphics = Graphics.FromImage(Rasterizer.Canvas.Bitmap);
+            using var graphics = Graphics.FromImage(Rasterizer.canvas.Bitmap);
 
             graphics.DrawPolygon(
                 pen,
                 polygon
                     .Vertices
-                    .Select(v => Rasterizer.Rasterize(new PointF(v.Position.X, v.Position.Y)))
+                    .Select(v => Rasterizer.GetPositionOnCanvas(v.Position))
                     .ToArray()
             );
         }
