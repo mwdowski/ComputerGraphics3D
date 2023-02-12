@@ -27,5 +27,10 @@ namespace ComputerGraphics3D.Drawing.SceneTransformers
         {
             return vector;
         }
+
+        public Vector4 TransformNormal(Vector4 vector)
+        {
+            return vector;
+        }
     }
 }

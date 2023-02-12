@@ -36,5 +36,27 @@ namespace ComputerGraphics3D.Drawing.SceneTransformers
                 return next.Transform(transformed);
             }
         }
+
+        private static Vector4 TransformNormally(Vector4 vector, Matrix4x4 matrix)
+        {
+            return new Vector4(
+                Vector3.TransformNormal(new Vector3(vector.X, vector.Y, vector.Z), matrix),
+                vector.W
+            );
+        }
+
+        public Vector4 TransformNormal(Vector4 vector)
+        {
+            var transformed = TransformNormally(vector, transformMatrix);
+
+            if (next == null)
+            {
+                return transformed;
+            }
+            else
+            {
+                return next.Transform(transformed);
+            }
+        }
     }
 }

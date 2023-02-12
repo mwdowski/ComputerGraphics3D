@@ -40,5 +40,14 @@ namespace ComputerGraphics3D.Model
         {
             drawer.DrawPolygon(this);
         }
+
+        public override Polygon GetTransformed(ISceneTransformer sceneTransformer)
+        {
+            var result = new Polygon();
+            result.Vertices = Vertices
+                .Select(v => sceneTransformer.Transform(v))
+                .ToList();
+            return result;
+        }
     }
 }

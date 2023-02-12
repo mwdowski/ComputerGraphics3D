@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using ComputerGraphics3D.Drawing.FigureDrawers;
+using ComputerGraphics3D.Drawing.SceneTransformers;
 using P2_TrianglesFilling.FigureDrawers;
 
 namespace ComputerGraphics3D.Model
@@ -34,6 +35,11 @@ namespace ComputerGraphics3D.Model
         public override void Draw(IFigureDrawer drawer)
         {
             drawer.DrawVertex(this);
+        }
+
+        public override Figure GetTransformed(ISceneTransformer sceneTransformer)
+        {
+            return sceneTransformer.Transform(this);
         }
     }
 }

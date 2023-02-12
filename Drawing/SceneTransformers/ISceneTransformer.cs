@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using ComputerGraphics3D.Model;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ComputerGraphics3D.Drawing.SceneTransformers
 {
@@ -11,5 +7,17 @@ namespace ComputerGraphics3D.Drawing.SceneTransformers
     {
         ISceneTransformer Then(ISceneTransformer other);
         Vector4 Transform(Vector4 vector);
+        Vector4 TransformNormal(Vector4 vector);
+    }
+
+    public static class SceneTranformerExtensions
+    {
+        public static Vertex Transform(this ISceneTransformer scenetTranformer, Vertex vertex)
+        {
+            return new Vertex(
+                scenetTranformer.Transform(vertex.Position),
+                scenetTranformer.TransformNormal(vertex.Normal)
+            );
+        }
     }
 }
