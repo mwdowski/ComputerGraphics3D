@@ -46,7 +46,7 @@ namespace ComputerGraphics3D.Drawing.Rasterizers
         public ZBufferedRasterizer(ICanvas canvas)
         {
             this.canvas = canvas;
-            float scale = 1f;
+            float scale = 0.4f;
             xMin = -scale * canvas.Bitmap.Width / canvas.Bitmap.Height;
             xMax = scale * canvas.Bitmap.Width / canvas.Bitmap.Height;
             yMin = -scale;
@@ -70,12 +70,16 @@ namespace ComputerGraphics3D.Drawing.Rasterizers
             }
         }
 
+        private object _lock = new();
         public void DrawPixel(Point pixel, float z, Color color)
         {
-            if (CanDraw(pixel, z))
+            lock (_lock)
             {
-                Canvas.SetPixel(pixel.X, pixel.Y, color);
-                zBuffor[pixel.X, pixel.Y] = z;
+                if (CanDraw(pixel, z))
+                {
+                    Canvas.SetPixel(pixel.X, pixel.Y, color);
+                    zBuffor[pixel.X, pixel.Y] = z;
+                }
             }
         }
 
@@ -101,6 +105,14 @@ namespace ComputerGraphics3D.Drawing.Rasterizers
         public void Refresh()
         {
             zBuffor.Refresh();
+        }
+
+        public PointF GetPixelCoordinates(Point pixel)
+        {
+            return new PointF(
+                pixel.X * (xMax - xMin) / width,
+                pixel.Y * (yMax - yMin) / height
+            );
         }
     }
 }

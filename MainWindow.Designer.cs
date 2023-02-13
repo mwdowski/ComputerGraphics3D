@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -49,6 +50,7 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.movingLightDirectionTrackBar = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel2.SuspendLayout();
@@ -88,7 +90,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(1144, 723);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove);
             // 
             // tableLayoutPanel2
             // 
@@ -140,6 +141,8 @@
             this.trackBar1.SmallChange = 5;
             this.trackBar1.TabIndex = 0;
             this.trackBar1.TickFrequency = 5;
+            this.trackBar1.Value = 20;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // groupBox2
             // 
@@ -164,6 +167,7 @@
             this.fogTrackBar.SmallChange = 5;
             this.fogTrackBar.TabIndex = 0;
             this.fogTrackBar.TickFrequency = 5;
+            this.fogTrackBar.Scroll += new System.EventHandler(this.fogTrackBar_Scroll);
             // 
             // cameraGroupBox
             // 
@@ -206,6 +210,7 @@
             this.staticCameraRadioButton.TabStop = true;
             this.staticCameraRadioButton.Text = "Static (from top)";
             this.staticCameraRadioButton.UseVisualStyleBackColor = true;
+            this.staticCameraRadioButton.CheckedChanged += new System.EventHandler(this.staticCameraRadioButton_CheckedChanged);
             // 
             // notMovingFollowingCameraRadioButton
             // 
@@ -216,6 +221,7 @@
             this.notMovingFollowingCameraRadioButton.TabIndex = 1;
             this.notMovingFollowingCameraRadioButton.Text = "Not moving - following";
             this.notMovingFollowingCameraRadioButton.UseVisualStyleBackColor = true;
+            this.notMovingFollowingCameraRadioButton.CheckedChanged += new System.EventHandler(this.notMovingFollowingCameraRadioButton_CheckedChanged);
             // 
             // movingFollowingCameraRadioButton
             // 
@@ -226,6 +232,7 @@
             this.movingFollowingCameraRadioButton.TabIndex = 2;
             this.movingFollowingCameraRadioButton.Text = "Moving - following";
             this.movingFollowingCameraRadioButton.UseVisualStyleBackColor = true;
+            this.movingFollowingCameraRadioButton.CheckedChanged += new System.EventHandler(this.movingFollowingCameraRadioButton_CheckedChanged);
             // 
             // movingObjectCheckBox
             // 
@@ -238,6 +245,7 @@
             this.movingObjectCheckBox.Text = "Moving object\'s \"vibrations\"";
             this.movingObjectCheckBox.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.movingObjectCheckBox.UseVisualStyleBackColor = true;
+            this.movingObjectCheckBox.CheckedChanged += new System.EventHandler(this.movingObjectCheckBox_CheckedChanged);
             // 
             // shadingModeGroupBox
             // 
@@ -280,6 +288,7 @@
             this.constantShadingModeRadioButton.TabStop = true;
             this.constantShadingModeRadioButton.Text = "Constant";
             this.constantShadingModeRadioButton.UseVisualStyleBackColor = true;
+            this.constantShadingModeRadioButton.CheckedChanged += new System.EventHandler(this.constantShadingModeRadioButton_CheckedChanged);
             // 
             // gouraudShadingModeRadioButton
             // 
@@ -290,6 +299,7 @@
             this.gouraudShadingModeRadioButton.TabIndex = 1;
             this.gouraudShadingModeRadioButton.Text = "Gouraud";
             this.gouraudShadingModeRadioButton.UseVisualStyleBackColor = true;
+            this.gouraudShadingModeRadioButton.CheckedChanged += new System.EventHandler(this.gouraudShadingModeRadioButton_CheckedChanged);
             // 
             // phongShadingModeRadioButton
             // 
@@ -300,6 +310,7 @@
             this.phongShadingModeRadioButton.TabIndex = 2;
             this.phongShadingModeRadioButton.Text = "Phong";
             this.phongShadingModeRadioButton.UseVisualStyleBackColor = true;
+            this.phongShadingModeRadioButton.CheckedChanged += new System.EventHandler(this.phongShadingModeRadioButton_CheckedChanged);
             // 
             // groupBox1
             // 
@@ -325,6 +336,7 @@
             this.movingLightDirectionTrackBar.SmallChange = 10;
             this.movingLightDirectionTrackBar.TabIndex = 0;
             this.movingLightDirectionTrackBar.TickFrequency = 10;
+            this.movingLightDirectionTrackBar.Scroll += new System.EventHandler(this.movingLightDirectionTrackBar_Scroll);
             // 
             // label1
             // 
@@ -336,6 +348,10 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Michał Wdowski, 2023";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // timer
+            // 
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // MainWindow
             // 
@@ -395,5 +411,6 @@
         private GroupBox groupBox2;
         private TrackBar fogTrackBar;
         private Label label1;
+        private System.Windows.Forms.Timer timer;
     }
 }

@@ -9,22 +9,13 @@ namespace ComputerGraphics3D.Drawing.ColorProviders
         protected readonly Polygon polygon;
         protected readonly LightSource lightSource;
         protected readonly PhongLightModelParameters parameters;
-        protected readonly Vector4 cameraPosition = new(0f, 0f, float.MaxValue, 1f);
-
-        public record PhongLightModelParameters
-        {
-            public float ambientCoefficient;
-            public float diffusedCoefficient;
-            public float specularCoefficient;
-            public float specularPower;
-        }
+        protected readonly Vector4 cameraPosition = new(0f, 0f, 1_000_000f, 1f);
 
         public BaseShadingColorProvider(
             Color objectColor,
             Polygon polygon,
             LightSource lightSource,
-            PhongLightModelParameters parameters
-            )
+            PhongLightModelParameters parameters)
         {
             this.objectColor = objectColor;
             this.polygon = polygon;
@@ -33,5 +24,14 @@ namespace ComputerGraphics3D.Drawing.ColorProviders
         }
 
         public abstract Color GetColor(float x, float y);
+    }
+
+    public record PhongLightModelParameters
+    {
+        public float ambientCoefficient;
+        public float diffusedCoefficient;
+        public float specularCoefficient;
+        public int specularPower;
+        public float fogCoefficient;
     }
 }

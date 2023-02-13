@@ -3,6 +3,7 @@ using ComputerGraphics3D.Drawing.Rasterizers;
 using ComputerGraphics3D.Drawing.Algorithms;
 using ComputerGraphics3D.Drawing.BarycentricInterpolation;
 using ComputerGraphics3D.Drawing.SceneTransformers;
+using System.Numerics;
 
 namespace ComputerGraphics3D.Model
 {
@@ -48,6 +49,18 @@ namespace ComputerGraphics3D.Model
                 .Select(v => sceneTransformer.Transform(v))
                 .ToList();
             return result;
+        }
+
+        public override Vector3 AveragePosition()
+        {
+            var positions = Vertices
+                .Select(p => p.Position);
+
+            return new Vector3(
+                positions.Average(p => p.X / p.W),
+                positions.Average(p => p.Y / p.W),
+                positions.Average(p => p.Z / p.W)
+            );
         }
     }
 }

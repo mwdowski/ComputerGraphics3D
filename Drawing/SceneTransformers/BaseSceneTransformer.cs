@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ComputerGraphics3D.Drawing.SceneTransformers
 {
-    public abstract class BaseSceneTransformer : ISceneTransformer
+    public class BaseSceneTransformer : ISceneTransformer
     {
         protected Matrix4x4 transformMatrix;
         private ISceneTransformer? next;

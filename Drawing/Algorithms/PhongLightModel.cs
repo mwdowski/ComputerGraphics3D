@@ -7,11 +7,13 @@ namespace ComputerGraphics3D.Drawing.Algorithms
     {
         public static Color GetColor(
             Color objectColor,
-            Vector4 objectPosition,
-            Vector4 objectNormal,
+            Vector3 objectPosition,
+            Vector3 objectNormal,
             Color lightColor,
-            Vector4 lightSourcePosition,
-            Vector4 cameraPosition,
+            Vector3 lightSourcePosition,
+            Vector3 spotlightSourcePosition,
+            Vector3 spotlightSourceNormal,
+            Vector3 cameraPosition,
             float ambientCoefficient,
             float diffusedCoefficient,
             float specularCoefficient,
@@ -25,6 +27,8 @@ namespace ComputerGraphics3D.Drawing.Algorithms
                         objectNormal,
                         ScaleByteToFloat(lightColor.R),
                         lightSourcePosition,
+                        spotlightSourcePosition,
+                        spotlightSourceNormal,
                         cameraPosition,
                         ambientCoefficient,
                         diffusedCoefficient,
@@ -32,11 +36,13 @@ namespace ComputerGraphics3D.Drawing.Algorithms
                         specularPower)),
                 ScaleFloatToByte(
                     GetPhongOneComponent(
-                        ScaleByteToFloat(objectColor.R),
+                        ScaleByteToFloat(objectColor.G),
                         objectPosition,
                         objectNormal,
-                        ScaleByteToFloat(lightColor.R),
+                        ScaleByteToFloat(lightColor.G),
                         lightSourcePosition,
+                        spotlightSourcePosition,
+                        spotlightSourceNormal,
                         cameraPosition,
                         ambientCoefficient,
                         diffusedCoefficient,
@@ -44,11 +50,13 @@ namespace ComputerGraphics3D.Drawing.Algorithms
                         specularPower)),
                 ScaleFloatToByte(
                     GetPhongOneComponent(
-                        ScaleByteToFloat(objectColor.R),
+                        ScaleByteToFloat(objectColor.B),
                         objectPosition,
                         objectNormal,
-                        ScaleByteToFloat(lightColor.R),
+                        ScaleByteToFloat(lightColor.B),
                         lightSourcePosition,
+                        spotlightSourcePosition,
+                        spotlightSourceNormal,
                         cameraPosition,
                         ambientCoefficient,
                         diffusedCoefficient,
@@ -59,22 +67,27 @@ namespace ComputerGraphics3D.Drawing.Algorithms
 
         private static float GetPhongOneComponent(
             float objectIntensity,
-            Vector4 objectPosition,
-            Vector4 objectNormal,
+            Vector3 objectPosition,
+            Vector3 objectNormal,
             float lightIntensity,
-            Vector4 lightSourcePosition,
-            Vector4 cameraPosition,
+            Vector3 lightSourcePosition,
+            Vector3 spotlightSourcePosition,
+            Vector3 spotlightSourceNormal,
+            Vector3 cameraPosition,
             float ambientCoefficient,
             float diffusedCoefficient,
             float specularCoefficient,
             int specularPower)
         {
             var lightDirection = lightSourcePosition - objectPosition;
+            spotlightSourcePosition = spotlightSourcePosition - objectPosition;
             var cameraDirection = cameraPosition - objectPosition;
             return objectIntensity * (
                 GetPhongAmbientComponent(ambientCoefficient)
-                + GetPhongDiffusedComponent(lightIntensity, diffusedCoefficient, objectNormal, lightDirection)
-                + GetPhongSpecularComponent(lightIntensity, specularCoefficient, specularPower, objectNormal, lightDirection, cameraDirection)
+                + GetPhongDiffusedComponent(lightIntensity, diffusedCoefficient, objectNormal, lightDirection,
+                    spotlightSourcePosition,  spotlightSourceNormal)
+                + GetPhongSpecularComponent(lightIntensity, specularCoefficient, specularPower, objectNormal, lightDirection, cameraDirection,
+                        spotlightSourcePosition, spotlightSourceNormal)
             );
         }
 
@@ -83,14 +96,18 @@ namespace ComputerGraphics3D.Drawing.Algorithms
             return ambietnCoefficient;
         }
 
-        private static float GetPhongDiffusedComponent(float lightIntensity, float diffuseCoefficient, Vector4 objectNormal, Vector4 lightDirection)
+        private static float GetPhongDiffusedComponent(float lightIntensity, float diffuseCoefficient, Vector3 objectNormal, Vector3 lightDirection,
+                        Vector3 spotlightSourcePosition, Vector3 spotlightSourceNormal)
         {
-            return lightIntensity * diffuseCoefficient * PositiveOrZero(CosAngle(objectNormal, lightDirection));
+            return lightIntensity * (1 + (float)Math.Pow(CosAngle(spotlightSourcePosition, spotlightSourceNormal), 100f) * diffuseCoefficient
+                * PositiveOrZero(CosAngle(objectNormal, lightDirection)));
         }
-        private static float GetPhongSpecularComponent(float lightIntensity, float specularCoefficient, int specularPower, Vector4 objectNormal, Vector4 lightDirection, Vector4 cameraDirection)
+        private static float GetPhongSpecularComponent(float lightIntensity, float specularCoefficient, int specularPower, Vector3 objectNormal,
+            Vector3 lightDirection, Vector3 cameraDirection, Vector3 spotlightSourcePosition, Vector3 spotlightSourceNormal)
         {
-            var reflectionVector = 2 * Vector4.Dot(objectNormal, lightDirection) * objectNormal - lightDirection;
-            return specularCoefficient * lightIntensity * PositiveOrZero((float)Math.Pow(CosAngle(cameraDirection, reflectionVector), specularPower));
+            var reflectionVector = 2 * Vector3.Dot(objectNormal, lightDirection) * objectNormal - lightDirection;
+            return specularCoefficient * lightIntensity * (1 + (float)Math.Pow(CosAngle(spotlightSourcePosition, spotlightSourceNormal), 100f))
+                * PositiveOrZero((float)Math.Pow(CosAngle(cameraDirection, reflectionVector), specularPower));
         }
 
         /*
@@ -110,12 +127,12 @@ namespace ComputerGraphics3D.Drawing.Algorithms
         }
         */
 
-        private static float ScaleByteToFloat(byte b)
+        public static float ScaleByteToFloat(byte b)
         {
             return b / 255f;
         }
 
-        private static byte ScaleFloatToByte(float f)
+        public static byte ScaleFloatToByte(float f)
         {
             return (byte)(PositiveOrZero(f > 1 ? 1 : f) * 255);
         }
@@ -138,9 +155,9 @@ namespace ComputerGraphics3D.Drawing.Algorithms
         }
         */
 
-        private static float CosAngle(Vector4 a, Vector4 b)
+        private static float CosAngle(Vector3 a, Vector3 b)
         {
-            return Vector4.Dot(a, b) / a.Length() / b.Length();
+            return Vector3.Dot(a, b) / a.Length() / b.Length();
         }
 
         private static float PositiveOrZero(float value)

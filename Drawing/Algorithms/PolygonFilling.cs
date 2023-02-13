@@ -1,5 +1,6 @@
 ﻿using ComputerGraphics3D.Canvases;
 using ComputerGraphics3D.Drawing.ColorProviders;
+using System.Data;
 
 namespace ComputerGraphics3D.Drawing.Algorithms
 {
@@ -96,25 +97,35 @@ namespace ComputerGraphics3D.Drawing.Algorithms
 
         private class EdgeTable
         {
-            private LinkedList<EdgeTableEntry>[] _edgeTable;
+            private Dictionary<int, LinkedList<EdgeTableEntry>> _edgeTable;
             public readonly int Size;
 
             public EdgeTable(int size)
             {
                 Size = size;
-                _edgeTable = new LinkedList<EdgeTableEntry>[size];
-                for (int i = 0; i < size; i++)
-                {
-                    _edgeTable[i] = new LinkedList<EdgeTableEntry>();
-                }
+                _edgeTable = new Dictionary<int, LinkedList<EdgeTableEntry>>();
             }
 
             public void Insert(EdgeTableEntry entry, int position)
             {
+                _edgeTable.TryAdd(position, new LinkedList<EdgeTableEntry>());
                 _edgeTable[position].AddLast(entry);
             }
 
-            public LinkedList<EdgeTableEntry> this[int index] => _edgeTable[index];
+            public LinkedList<EdgeTableEntry> this[int index]
+            {
+                get
+                { 
+                    if (_edgeTable.TryGetValue(index, out var result))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        return new LinkedList<EdgeTableEntry>();
+                    }
+                }
+            }
 
             public static EdgeTable GetET(IList<Edge> edges)
             {

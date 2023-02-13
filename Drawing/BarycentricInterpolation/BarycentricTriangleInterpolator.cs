@@ -11,9 +11,9 @@ namespace ComputerGraphics3D.Drawing.BarycentricInterpolation
         where TEvaluationChain : IVectorOperationsEvaluationChain<TEvaluationChain, float, TVector>, new()
     {
         public BarycentricTriangleInterpolator(
-            Point position1, TVector value1,
-            Point position2, TVector value2,
-            Point position3, TVector value3)
+            PointF position1, TVector value1,
+            PointF position2, TVector value2,
+            PointF position3, TVector value3)
         {
             Position1 = position1;
             Value1 = value1;
@@ -23,21 +23,21 @@ namespace ComputerGraphics3D.Drawing.BarycentricInterpolation
             Value3 = value3;
         }
 
-        public Point Position1 { get; }
+        public PointF Position1 { get; }
         public TVector Value1 { get; }
-        public Point Position2 { get; }
+        public PointF Position2 { get; }
         public TVector Value2 { get; }
-        public Point Position3 { get; }
+        public PointF Position3 { get; }
         public TVector Value3 { get; }
 
-        public TVector GetWeightInPoint(Point position)
+        public TVector GetWeightInPoint(PointF position)
         {
             var weight1 =
-                ((float)(Position2.Y - Position3.Y) * (position.X - Position3.X) + (Position3.X - Position2.X) * (position.Y - Position3.Y))
+                ((Position2.Y - Position3.Y) * (position.X - Position3.X) + (Position3.X - Position2.X) * (position.Y - Position3.Y))
                 / ((Position2.Y - Position3.Y) * (Position1.X - Position3.X) + (Position3.X - Position2.X) * (Position1.Y - Position3.Y));
 
             var weight2 =
-                ((float)(Position3.Y - Position1.Y) * (position.X - Position3.X) + (Position1.X - Position3.X) * (position.Y - Position3.Y))
+                ((Position3.Y - Position1.Y) * (position.X - Position3.X) + (Position1.X - Position3.X) * (position.Y - Position3.Y))
                 / ((Position2.Y - Position3.Y) * (Position1.X - Position3.X) + (Position3.X - Position2.X) * (Position1.Y - Position3.Y));
 
             var weight3 = 1 - weight1 - weight2;

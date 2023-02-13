@@ -12,11 +12,11 @@ namespace ComputerGraphics3D.Drawing.SceneTransformers
 
     public static class SceneTranformerExtensions
     {
-        public static Vertex Transform(this ISceneTransformer scenetTranformer, Vertex vertex)
+        public static Vertex Transform(this ISceneTransformer sceneTranformer, Vertex vertex)
         {
             return new Vertex(
-                scenetTranformer.Transform(vertex.Position),
-                scenetTranformer.TransformNormal(vertex.Normal)
+                sceneTranformer.Transform(vertex.Position),
+                sceneTranformer.TransformNormal(vertex.Normal)
             );
         }
     }

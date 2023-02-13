@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using ComputerGraphics3D.Drawing.FigureDrawers;
 using ComputerGraphics3D.Drawing.SceneTransformers;
-using P2_TrianglesFilling.FigureDrawers;
 
 namespace ComputerGraphics3D.Model
 {
@@ -37,9 +36,14 @@ namespace ComputerGraphics3D.Model
             drawer.DrawVertex(this);
         }
 
-        public override Figure GetTransformed(ISceneTransformer sceneTransformer)
+        public override Vertex GetTransformed(ISceneTransformer sceneTransformer)
         {
             return sceneTransformer.Transform(this);
+        }
+
+        public override Vector3 AveragePosition()
+        {
+            throw new NotImplementedException();
         }
     }
 }

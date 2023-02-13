@@ -17,5 +17,6 @@ namespace ComputerGraphics3D.Drawing.Rasterizers
         void DrawPixel(Point pixel, float z, Color color);
         Color GetPixel(Point pixel);
         Point GetPositionOnCanvas(Vector4 vector);
+        PointF GetPixelCoordinates(Point pixel);
     }
 }

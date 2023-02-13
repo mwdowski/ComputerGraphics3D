@@ -16,10 +16,14 @@ namespace ComputerGraphics3D.Drawing.FigureDrawers
 
         public void DrawPolygonSet(PolygonSet polygonSet)
         {
+            Parallel.ForEach(polygonSet.Polygons, polygon => DrawPolygon(polygon));
+            /*
             foreach (var polygon in polygonSet.Polygons)
             {
                 polygon.Draw(this);
             }
+            */
+            
         }
 
         public void DrawVertex(Vertex vertex)
